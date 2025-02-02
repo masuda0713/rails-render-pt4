@@ -11,7 +11,7 @@
 
 
 ## インストール方法
-* Dockerコンテナの起動
+### Dockerコンテナの起動
 
 docker compose build //compose.yamlファイルに基づいて、Dockerイメージを構築
 docker compose up -d //複数のコンテナを起動し、バックグラウンドで実行します
