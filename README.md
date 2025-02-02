@@ -1,24 +1,23 @@
 # README
+* 構成
+Ruby：3.2.2
+Rails：7.1.2
+PostgreSQL：15
+Docker
+Render.com
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* Dockerコンテナの起動
+docker compose build //compose.yamlファイルに基づいて、Dockerイメージを構築
+docker compose up -d //複数のコンテナを起動し、バックグラウンドで実行します
 
-Things you may want to cover:
+* データベースのセットアップ
+docker-compose exec web bash
+rails db:create  #データベースの作成
+rails db:migrate  #データベースのスキーマーを最新にする(マイグレーションファイルを順番に実施)
+exit
 
-* Ruby version
+* アクセス確認
+ブラウザで http://localhost:3000 にアクセス可能
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* 注釈
+ファイル・フォルダの権限をsudo chown -Rで更新するのが手間のため、確認中
