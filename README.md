@@ -9,20 +9,19 @@
 - Docker
 - Render.com
 
-
 ## インストール方法
 ### Dockerコンテナの起動
-
+```bash
 docker compose build //compose.yamlファイルに基づいて、Dockerイメージを構築
 docker compose up -d //複数のコンテナを起動し、バックグラウンドで実行します
-
-* データベースのセットアップ
-
+```
+- データベースのセットアップ
+```bash
 docker-compose exec web bash
 rails db:create  #データベースの作成
 rails db:migrate  #データベースのスキーマーを最新にする(マイグレーションファイルを順番に実施)
 exit
-
+```
 * アクセス確認
 
 ブラウザで http://localhost:3000 にアクセス可能
