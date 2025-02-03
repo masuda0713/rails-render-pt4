@@ -7,10 +7,12 @@ services:
       POSTGRES_PASSWORD: password
   web:
     build:
-      # 開発環境用に追記
       context: .
-      dockerfile: Dockerfile.dev # 開発用Dockerfile
+      dockerfile: Dockerfile.dev
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    environment:
+      - UID=${UID}
+      - GID=${GID}
     volumes:
       - .:/sample-app
     ports:

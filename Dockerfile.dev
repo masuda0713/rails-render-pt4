@@ -2,16 +2,23 @@ FROM ruby:3.2.2
 
 # パッケージリストを更新し、nodejsとPostgreSQLクライアントをインストール
 RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+
+# 非rootユーザーの作成
+RUN useradd -m rails
 WORKDIR /sample-app
-COPY Gemfile /sample-app/Gemfile
-COPY Gemfile.lock /sample-app/Gemfile.lock
+
+# rails ユーザーの権限で実行する
+RUN chown -R rails:rails /sample-app
+USER rails
+
+# Gemfile をコピーして事前に bundle install
+COPY --chown=rails:rails Gemfile Gemfile.lock /sample-app/
 RUN bundle install
 
 # エントリーポイントスクリプト（コンテナ起動時に実行するスクリプト）をコピー
-COPY entrypoint.sh /usr/bin/
+COPY --chown=rails:rails entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
 
-# コンテナ起動時に実行されるデフォルトのコマンド（Railsサーバーの起動）
 CMD ["rails", "server", "-b", "0.0.0.0"]
