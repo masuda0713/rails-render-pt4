@@ -94,4 +94,12 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  # 許可するホスト
+  config.hosts << "foodesia.tokyo"
+  config.hosts << "www.foodesia.tokyo"
+
+  # IP制限
+  config.middleware.insert_before 0, Rack::Attack
+
 end
