@@ -98,6 +98,6 @@ Rails.application.configure do
   # 許可するホスト
   config.hosts << "foodesia.tokyo"
   config.hosts << "www.foodesia.tokyo"
-
+  config.hosts << "rails-render-pt4.onrender.com" # Renderのデフォルトドメインを許可
 
 end
