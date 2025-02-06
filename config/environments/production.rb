@@ -99,7 +99,5 @@ Rails.application.configure do
   config.hosts << "foodesia.tokyo"
   config.hosts << "www.foodesia.tokyo"
 
-  # IP制限
-  config.middleware.insert_before 0, Rack::Attack
 
 end
