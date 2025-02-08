@@ -4,8 +4,9 @@ require 'rack/cors'
 Bundler.require(*Rails.groups)
 
 # Dotenv を Rails の初期化前にロード
-Dotenv::Railtie.load if defined?(Dotenv)
+Dotenv::Rails.load if defined?(Dotenv::Rails)
 
+# Rails アプリケーションの設定
 module SampleApp
   class Application < Rails::Application
     config.load_defaults 7.1

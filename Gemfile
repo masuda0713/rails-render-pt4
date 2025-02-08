@@ -10,10 +10,10 @@ gem "turbo-rails"
 gem "stimulus-rails"
 gem "jbuilder"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
-gem "bootsnap", require: false
-gem "rack-attack", "~> 6.7"
-gem "dotenv-rails", "~> 3.1"
-gem 'rack-cors'
+gem "bootsnap", require: false #Bootsnapは、Railsアプリケーションの起動時間を短縮するためのライブラリです。
+gem "rack-attack", "~> 6.7" #Rack::Attackは、Rackミドルウェアとして動作する、リクエストを制限するためのライブラリです。
+gem "dotenv-rails", "~> 3.1" #Dotenvは、環境変数を読み込むためのライブラリです。
+gem 'rack-cors' #rack-corは、CORS（Cross-Origin Resource Sharing）を実装するためのRackミドルウェアです。
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
