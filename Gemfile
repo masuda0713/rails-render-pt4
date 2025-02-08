@@ -12,6 +12,7 @@ gem "jbuilder"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 gem "rack-attack", "~> 6.7"
+gem "dotenv-rails", "~> 3.1"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
@@ -25,5 +26,4 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-
 

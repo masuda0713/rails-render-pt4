@@ -1,8 +1,9 @@
 require_relative "boot"
-
 require "rails/all"
-
 Bundler.require(*Rails.groups)
+
+# Dotenv を Rails の初期化前にロード
+Dotenv::Railtie.load if defined?(Dotenv)
 
 module SampleApp
   class Application < Rails::Application
