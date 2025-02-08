@@ -13,6 +13,7 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 gem "rack-attack", "~> 6.7"
 gem "dotenv-rails", "~> 3.1"
+gem 'rack-cors'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
