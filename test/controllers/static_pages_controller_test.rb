@@ -6,7 +6,7 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
   test "should get home" do
     get static_pages_home_url # homeページにアクセス
     assert_response :success # 成功を意味するステータスコード200が返されることを確認
-    assert_select "title", "Home | Ruby on Rails Tutorial Sample App" # タイトルタグが正しいことを確認
+    assert_select "title", "Ruby on Rails Tutorial Sample App" # タイトルタグが正しいことを確認
   end
 
   # helpページが表示されることを確認する
