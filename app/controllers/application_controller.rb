@@ -1,5 +1,12 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate # Basic認証
+  # before_action :authenticate # Basic認証。すべてのリクエストに認証を適用
+  before_action :authenticate, if: -> { ENV["BASIC_AUTH_ENABLED"] == "true" } # 環境変数が true の時のみ認証
+
+  def index
+  end
+  
+  def hello
+  end
 
   private
 
