@@ -14,6 +14,7 @@ gem "bootsnap", require: false  #Bootsnapは、Railsアプリケーションの�
 gem "rack-attack", "~> 6.7"     #Rack::Attackは、Rackミドルウェアとして動作する、リクエストを制限するためのライブラリです。
 gem "dotenv-rails", "~> 3.1"    #Dotenvは、環境変数を読み込むためのライブラリです。
 gem "bootstrap-sass",  "3.4.1"  #Bootstrap-sassは、BootstrapのSassバージョンを提供するためのライブラリです。
+gem "devise", "~> 4.9"          #Deviseは、Railsアプリケーションに認証機能を追加するためのライブラリです。
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ] #Debugは、デバッグ用のライブラリです。
@@ -32,4 +33,6 @@ group :test do
   gem "webdrivers",               "5.2.0" #Webdriversは、ブラウザを自動操作するためのライブラリです。
   gem "rails-controller-testing", "1.0.5" #Rails-controller-testingは、Railsアプリケーションのコントローラテストを実行するためのライブラリです。
 end
+
+
 
