@@ -1,17 +1,20 @@
-<!DOCTYPE html>
+<!DOCTYPE html> <!-- HTML5の宣言 -->
 <html>
   <head>
-    <title><%= full_title(yield(:title)) %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta charset="utf-8">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+    <title><%= full_title(yield(:title)) %></title> <!-- ページごとのタイトルを表示 -->
+    <meta name="viewport" content="width=device-width,initial-scale=1"> <!-- ビューポートの設定 -->
+    <meta charset="utf-8"> <!-- 文字コードをUTF-8に指定 -->
+    <%= csrf_meta_tags %> <!-- CSRF対策 -->
+    <%= csp_meta_tag %> <!-- CSP対策 -->
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>  <!-- CSSを読み込む -->  
+    <%= javascript_importmap_tags %> <!-- JavaScript Importmapを読み込む -->
   </head>
-
-  <body>
-    <%= yield %>
+  <body> <!-- ページの本体 -->
+    <%= render 'layouts/header' %> <!-- ヘッダーを表示 -->
+    <div class="container"> <!-- ページのコンテンツを表示 -->
+      <%= yield %> <!-- コンテンツの表示 -->
+      <%= render 'layouts/footer' %> <!-- フッターを表示 -->
+    </div>
   </body>
 </html>

@@ -13,6 +13,7 @@ gem "tzinfo-data", platforms: %i[ windows jruby ] #Tzinfo-dataは、タイムゾ
 gem "bootsnap", require: false  #Bootsnapは、Railsアプリケーションの起動時間を短縮するためのライブラリです。
 gem "rack-attack", "~> 6.7"     #Rack::Attackは、Rackミドルウェアとして動作する、リクエストを制限するためのライブラリです。
 gem "dotenv-rails", "~> 3.1"    #Dotenvは、環境変数を読み込むためのライブラリです。
+gem "bootstrap-sass",  "3.4.1"  #Bootstrap-sassは、BootstrapのSassバージョンを提供するためのライブラリです。
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ] #Debugは、デバッグ用のライブラリです。

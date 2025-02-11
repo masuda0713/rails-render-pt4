@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
-  root "static_pages#home"
-  get 'static_pages/home'
-  get 'static_pages/help'
-  get 'static_pages/about' 
+  root "static_pages#home"    # ルートURLにアクセス
+  get  "/help",    to: "static_pages#help"    # helpページにアクセス
+  get  "/about",   to: "static_pages#about"   # aboutページにアクセス
+  get  "/contact", to: "static_pages#contact" # contactページにアクセス
 end
