@@ -13,8 +13,12 @@
   <body> <!-- ページの本体 -->
     <%= render 'layouts/header' %> <!-- ヘッダーを表示 -->
     <div class="container"> <!-- ページのコンテンツを表示 -->
+      <% flash.each do |message_type, message| %> <!-- フラッシュメッセージを表示 -->
+        <div class="alert alert-<%= message_type %>"><%= message %></div> <!-- success, error, alert, noticeのメッセージを表示 -->
+      <% end %>
       <%= yield %> <!-- コンテンツの表示 -->
       <%= render 'layouts/footer' %> <!-- フッターを表示 -->
+      <%= debug(params) if Rails.env.development? %> <!-- デバッグ情報を表示 -->
     </div>
   </body>
 </html>

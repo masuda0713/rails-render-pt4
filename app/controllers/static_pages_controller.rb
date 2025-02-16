@@ -1,13 +1,14 @@
 class StaticPagesController < ApplicationController
-  def home
+
+  def home # homeページのアクションを追加
   end
 
-  def help
+  def help # helpページのアクションを追加
   end
 
-  def about
+  def about # aboutページのアクションを追加
   end
 
-  def contact
+  def contact # contactページのアクションを追加
   end
 end

@@ -26,7 +26,7 @@ class UserTest < ActiveSupport::TestCase
     @user.name = "a" * 51 # ユーザー名を51文字にする
     assert_not @user.valid? # ユーザーが無効であることを確認
   end
-
+  
   test "email should not be too long" do # メールアドレスが長すぎないことを確認
     @user.email = "a" * 244 + "@example.com" # メールアドレスを256文字にする
     assert_not @user.valid? # ユーザーが無効であることを確認
