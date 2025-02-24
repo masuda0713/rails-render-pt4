@@ -2,10 +2,38 @@
   <div class="container"> <!-- ナビゲーションバーのコンテナ -->
     <%= link_to "sample app", root_path, id: "logo" %> <!-- ロゴをクリックするとトップページに移動 -->
     <nav> 
-      <ul class="nav navbar-nav navbar-right"> <!-- ナビゲーションバーのリンク -->
+      <!-- ハンバーガーメニュー -->
+      <div class="navbar-header">
+        <button id="hamburger" type="button" class="navbar-toggle collapsed">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <!-- ナビゲーションバーのリンク -->
+      <ul id="navbar-menu"
+          class="nav navbar-nav navbar-right collapse navbar-collapse">
         <li><%= link_to "Home",   root_path %></li> <!-- Homeページに移動 -->
         <li><%= link_to "Help",   help_path %></li> <!-- Helpページに移動 -->
-        <li><%= link_to "Log in", '#' %></li> <!-- ログインページに移動 -->
+        <% if user_signed_in? %> <!-- ログインしている場合 -->
+          <li><%= link_to "Users", users_path %></li> <!-- Usersページに移動 -->
+          <li class="dropdown">
+            <a href="#" id="account" class="dropdown-toggle"> <!-- ドロップダウンメニューのリンク -->
+              Account <b class="caret"></b>
+            </a>
+            <ul id="dropdown-menu" class="dropdown-menu"> <!-- ドロップダウンメニューのリスト -->
+              <li><%= link_to "Profile", current_user %></li> <!-- プロフィールページに移動 -->
+              <li><%= link_to "Settings", '#' %></li> <!-- 設定ページに移動 -->
+              <li class="divider"></li> <!-- 区切り線 -->
+              <li> <!-- ログアウト -->
+                <%= link_to "Log out", destroy_user_session_path, method: :delete %>
+              </li>
+            </ul>
+          </li>
+        <% else %> <!-- ログインしていない場合 -->
+          <li><%= link_to "Log in", new_user_session_path %></li> <!-- ログインページに移動 -->
+        <% end %>
       </ul>
     </nav>
   </div>
