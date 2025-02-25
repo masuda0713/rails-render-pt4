@@ -1,35 +1,32 @@
-# This configuration file will be evaluated by Puma. The top-level methods that
-# are invoked here are part of Puma's configuration DSL. For more information
-# about methods provided by the DSL, see https://puma.io/puma/Puma/DSL.html.
+# Pumaのスレッド設定
+max_threads_count = ENV.fetch("RAILS_MAX_THREADS") { 2 } # スレッド数を2に制限
+min_threads_count = ENV.fetch("RAILS_MIN_THREADS") { max_threads_count } # スレッド数を2に制限
+threads min_threads_count, max_threads_count # スレッド数を設定
 
-# Puma can serve each request in a thread from an internal thread pool.
-# The `threads` method setting takes two numbers: a minimum and maximum.
-# Any libraries that use thread pools should be configured to match
-# the maximum value specified for Puma. Default is set to 5 threads for minimum
-# and maximum; this matches the default thread size of Active Record.
-max_threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
-min_threads_count = ENV.fetch("RAILS_MIN_THREADS") { max_threads_count }
-threads min_threads_count, max_threads_count
-
-# Specifies that the worker count should equal the number of processors in production.
-if ENV["RAILS_ENV"] == "production"
-  require "concurrent-ruby"
-  worker_count = Integer(ENV.fetch("WEB_CONCURRENCY") { Concurrent.physical_processor_count })
-  workers worker_count if worker_count > 1
+# `production` 環境ではワーカー数を制限
+if ENV.fetch("RAILS_ENV", "development") == "production"
+  workers Integer(ENV.fetch("WEB_CONCURRENCY") { 1 }) # ワーカーを1に制限（メモリ使用を抑える）
 end
 
-# Specifies the `worker_timeout` threshold that Puma will use to wait before
-# terminating a worker in development environments.
+# Pumaのタイムアウト設定
 worker_timeout 3600 if ENV.fetch("RAILS_ENV", "development") == "development"
 
-# Specifies the `port` that Puma will listen on to receive requests; default is 3000.
+# ポート番号を指定
 port ENV.fetch("PORT") { 3000 }
 
-# Specifies the `environment` that Puma will run in.
+# 環境設定
 environment ENV.fetch("RAILS_ENV") { "development" }
 
-# Specifies the `pidfile` that Puma will use.
+# PIDファイルの場所を指定
 pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 
-# Allow puma to be restarted by `bin/rails restart` command.
+# `preload_app!` を追加（メモリ効率化）
+preload_app!
+
+# ワーカーの起動時にDB接続を確立
+on_worker_boot do
+  ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
+end
+
+# 'bin/rails restart' でサーバーを再起動するために必要
 plugin :tmp_restart
