@@ -17,8 +17,10 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def destroy # ログアウト処理
-    sign_out # ログアウト処理
-    redirect_to root_url # ルートURL
+    sign_out(resource_name) # `resource_name` を指定
+    redirect_to root_url, notice: "ログアウトしました"
+    #sign_out # ログアウト処理
+    #redirect_to root_url # ルートURLにリダイレクト
   end
 
   protected
