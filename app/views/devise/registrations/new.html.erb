@@ -3,21 +3,20 @@
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <!-- 以下のコードは、新規登録ページのフォームを表示するためのものです。 -->
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>  
-      <%= render "devise/shared/error_messages", resource: resource %>
+    <%= form_with(model: resource, url: registration_path(resource_name), local: true) do |f| %> <!-- form_withメソッドを使って、フォームを作成 -->
+      <%= render "devise/shared/error_messages", resource: resource %> <!-- エラーメッセージを表示 -->
 
-      <div class="field">
+      <div class="field"> <!-- ユーザー名のフィールド -->
         <%= f.label :name %><br />
         <%= f.text_field :name, autofocus: true %>
       </div>
 
-      <div class="field">
+      <div class="field"> <!-- メールのフィールド -->
         <%= f.label :email %><br />
         <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
       </div>
 
-      <div class="field">
+      <div class="field"> <!-- パスワードのフィールド -->
         <%= f.label :password %>
         <% if @minimum_password_length %>
         <em>(<%= @minimum_password_length %> characters minimum)</em>
@@ -25,12 +24,12 @@
         <%= f.password_field :password, autocomplete: "new-password" %>
       </div>
 
-      <div class="field">
+      <div class="field"> <!-- パスワード確認のフィールド -->
         <%= f.label :password_confirmation %><br />
         <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
       </div>
 
-      <div class="actions">
+      <div class="actions"> <!-- 登録ボタン -->
         <%= f.submit "Sign up", class: "btn btn-primary" %>
       </div>
     <% end %>

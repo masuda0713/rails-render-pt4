@@ -6,9 +6,9 @@ class User < ApplicationRecord
                     uniqueness: true # 一意性を検証。
   validates :password, presence: true, length: { minimum: 6 } # パスワードが存在することを検証。6文字以上であることを検証。
 
-  devise :database_authenticatable, # データベースを使用した認証を有効にする
-         :registerable, # ユーザー登録を有効にする
+  devise :database_authenticatable, # データベースを使用した認証を有効にする。メールアドレスとパスワードによる認証。
+         :registerable, # ユーザー登録を有効にする。新規登録、編集、削除が可能。
          :recoverable, # パスワードリセットを有効にする
-         :rememberable, # ログイン情報を保持する
-         :validatable # バリデーションを有効にする
+         :rememberable, # ログイン情報を保持する。Remember me機能。
+         :validatable # メールアドレス、パスワードのバリデーションを有効にする。
 end

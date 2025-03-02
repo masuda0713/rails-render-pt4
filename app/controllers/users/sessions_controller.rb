@@ -1,31 +1,27 @@
 class Users::SessionsController < Devise::SessionsController
+  #before_action :configure_sign_in_params, only: [:create] # ログイン時に `name` を許可する
 
   def new # ログインページ
-    super
+    super # Devise::SessionsController の new アクションを呼び出す
   end
 
   def create # ログイン処理
-    self.resource = warden.authenticate!(auth_options) # ログイン処理
-    if resource # ログインに成功した場合
-      set_flash_message!(:notice, :signed_in) # フラッシュメッセージ
-      sign_in(resource_name, resource) # ログイン処理
-      redirect_to after_sign_in_path_for(resource) # ログイン後にユーザー詳細ページにリダイレクト
-    else # ログインに失敗した場合
-      flash.now[:alert] = "メールアドレスまたはパスワードが違います" # フラッシュメッセージ
-      redirect_to new_user_session_path # ログインページにリダイレクト
-    end
+    super # Devise::SessionsController の create アクションを呼び出す
+    flash[:notice] = "ログインしました！ようこそ #{current_user.name} さん！" if is_flashing_format? # ログイン成功
   end
 
   def destroy # ログアウト処理
-    sign_out(resource_name) # `resource_name` を指定
-    redirect_to root_url, notice: "ログアウトしました"
-    #sign_out # ログアウト処理
-    #redirect_to root_url # ルートURLにリダイレクト
+    super # Devise::SessionsController の destroy アクションを呼び出す
+    flash[:notice] = "ログアウトしました。またのご利用をお待ちしています。" if is_flashing_format? # ログアウト成功
   end
 
   protected
 
   def after_sign_in_path_for(resource) # ログイン後のリダイレクト先
-    user_path(resource) # プロフィールページ
+    user_path(resource) # ログイン後にプロフィールページにリダイレクト
   end
+
+  #def configure_sign_in_params # ログイン時に `name` を許可する
+  #  devise_parameter_sanitizer.permit(:sign_in, keys: [:name]) # name を許可
+  #end
 end
