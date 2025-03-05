@@ -8,26 +8,29 @@ roles = {
 
 # 権限マスタの登録
 roles.each do |name, description|
-  Role.find_or_create_by!(name: name) do |role|
-    role.description = description
+  Role.find_or_create_by!(name: name) do |role| # すでに存在する場合は更新しない
+    role.description = description # 権限の説明
   end
 end
 
-# メインのサンプルユーザーを1人作成する(admin)
-admin_user = User.create!(
-  name:  "Example User",
-  email: "example@railstutorial.org",
-  password: "foobar",
-  password_confirmation: "foobar",
-)
+# メインのサンプルユーザー(管理者)を作成(重複防止)
+admin_user = User.find_or_create_by!(email: "example@railstutorial.org") do |user|
+  user.name = "Example User"
+  user.password = "foobar"
+  user.password_confirmation = "foobar"
+end
 
-# メインユーザーに管理者権限を付与
-admin_user.roles << Role.find_by(name: "admin")
+# メインユーザーに管理者権限を付与(重複防止)
+unless admin_user.roles.exists?(name: "admin")
+  admin_user.roles << Role.find_by(name: "admin")
+end
 
 # 追加のサンプルユーザーを99人作成する
 99.times do |n|
-  name  = Faker::Name.name
   email = "example-#{n+1}@railstutorial.org"
+  next if User.exists?(email: email) # 既に存在する場合はスキップ
+
+  name  = Faker::Name.name
   password = "password"
 
   user = User.create!(

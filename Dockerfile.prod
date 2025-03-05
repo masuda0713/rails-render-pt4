@@ -1,65 +1,65 @@
 # syntax = docker/dockerfile:1
 
-# Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
+# .ruby-versionやGemfile.lockを元に、最新のRubyイメージを取得
 ARG RUBY_VERSION=3.2.2
 FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 
-# Rails app lives here
+# Railsアプリの作業ディレクトリを指定
 WORKDIR /rails
 
-# Set production environment
+# 本番環境の環境変数を設定
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development"
 
 
-# Throw-away build stage to reduce size of final image
+# 一時的なビルドステージを作成し、最終的なイメージサイズを削減
 FROM base as build
 
-# Install packages needed to build gems
+# アプリのビルドに必要なパッケージをインストール
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git libpq-dev libvips pkg-config
 
-# Install application gems
+# アプリの依存関係（Gem）をインストール
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
-# Copy application code
+# アプリのソースコードをコピー
 COPY . .
 
-# Precompile bootsnap code for faster boot times
+# bootsnap をプリコンパイルし、アプリの起動を高速化
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
+# シークレットキーなしでアセットをプリコンパイル
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 
-# Final stage for app image
+# 本番環境用の最終イメージ
 FROM base
 
-# Install packages needed for deployment
+# 本番環境で必要なパッケージをインストール
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libvips postgresql-client && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# Copy built artifacts: gems, application
+# ビルドしたアーティファクト（Gemやアプリケーション）をコピー
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
 
-# Run and own only the runtime files as a non-root user for security
+# セキュリティのため、非rootユーザーで実行
 RUN useradd rails --create-home --shell /bin/bash && \
     chown -R rails:rails db log storage tmp
 USER rails:rails
 
-# Entrypoint prepares the database.
+# エントリーポイントスクリプトを設定（データベースの準備を行う）
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
-# Start the server by default, this can be overwritten at runtime
+# サーバーのポートを公開（デフォルト3000番）
 EXPOSE 3000
-# CMD ["./bin/rails", "server"]
-# データベースのマイグレーションを実行してからサーバーを起動する
-CMD ["sh", "-c", "bundle exec rails db:migrate && bundle exec rails s -b 0.0.0.0"] 
+
+# データベースのマイグレーションとシードデータ投入後、サーバーを起動
+CMD ["sh", "-c", "bundle exec rails db:migrate && bundle exec rails db:seed && bundle exec rails s -b 0.0.0.0"]
 
