@@ -17,6 +17,10 @@ gem "bootstrap-sass",  "3.4.1"  #Bootstrap-sassは、BootstrapのSassバージ�
 gem "devise", "~> 4.9"          #Deviseは、Railsアプリケーションに認証機能を追加するためのライブラリです。
 gem "jquery-rails", "~> 4.6"    #Jquery-railsは、jQueryをRailsアプリケーションに追加するためのライブラリです。
 gem "bcrypt", "~> 3.1"          #Bcryptは、パスワードのハッシュ化を行うためのライブラリです。
+gem "faker", "~> 3.5"           #Fakerは、ダミーデータを生成するためのライブラリです。
+gem "will_paginate", "~> 3.3"   #Will_paginateは、ページネーション機能を提供するためのライブラリです。
+gem "bootstrap-will_paginate", "1.0.0" #Bootstrap-will_paginateは、Will_paginateのスタイルをBootstrapに対応させるためのライブラリです。
+gem "cancancan", "~> 3.6"       #Cancancanは、アクセス制御を行うためのライブラリです。
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ] #Debugは、デバッグ用のライブラリです。
@@ -35,8 +39,6 @@ group :test do
   gem "webdrivers",               "5.2.0" #Webdriversは、ブラウザを自動操作するためのライブラリです。
   gem "rails-controller-testing", "1.0.5" #Rails-controller-testingは、Railsアプリケーションのコントローラテストを実行するためのライブラリです。
 end
-
-
 
 
 

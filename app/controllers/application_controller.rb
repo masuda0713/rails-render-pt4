@@ -1,14 +1,8 @@
 class ApplicationController < ActionController::Base
-  # before_action :authenticate # Basic認証。すべてのリクエストに認証を適用
   before_action :authenticate, if: -> { ENV["BASIC_AUTH_ENABLED"] == "true" } # 環境変数が true の時のみ認証
+  before_action :configure_permitted_parameters, if: :devise_controller? # Devise のストロングパラメータを許可する
 
-  # Devise のストロングパラメータを許可する
-  before_action :configure_permitted_parameters, if: :devise_controller?
-
-  def index
-  end
-  
-  def hello
+  def index # トップページ
   end
 
   private
@@ -29,5 +23,10 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
     devise_parameter_sanitizer.permit(:account_update, keys: [:name])
+  end
+
+  # Cancancan の権限エラー時の処理
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_path, alert: "アクセス権限がありません。"
   end
 end

@@ -1,0 +1,19 @@
+<% provide(:title, 'All users') %> <!-- タイトルを設定 -->
+<h1>All users</h1>
+
+<%= will_paginate %> <!-- ページネーション -->
+
+<ul class="users"> <!-- ユーザーのリスト -->
+  <% @users.each do |user| %>
+    <li>
+      <%= gravatar_for user, size: 50 %> <!-- ユーザーのGravatarを表示 -->
+      <%= link_to user.name, user %> <!-- ユーザー名をクリックするとユーザー詳細ページに移動 -->
+      <% if current_user.has_role?(:admin) && current_user != user %> 
+        <!-- 管理者のみ表示、自分自身のアカウントは削除不可 -->
+        <%= link_to "削除", user, data: { "turbo-method": :delete, turbo_confirm: "本当に削除しますか？" } %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
+<%= will_paginate %> <!-- ページネーション -->

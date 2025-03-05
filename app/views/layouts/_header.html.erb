@@ -17,14 +17,17 @@
         <li><%= link_to "Home",   root_path %></li> <!-- Homeページに移動 -->
         <li><%= link_to "Help",   help_path %></li> <!-- Helpページに移動 -->
         <% if user_signed_in? %> <!-- ログインしている場合 -->
-          <li><%= link_to "Users", users_path %></li> <!-- Usersページに移動 -->
+          <% if current_user.roles.exists?(name: "admin") %>  <!-- 管理者のみ表示 -->
+            <li><%= link_to "Users", users_path %></li> <!-- Usersページに移動 -->
+          <% end %> <!-- 管理者のみ表示 -->
+          <!--<li><%= link_to "Users", users_path %></li> --><!-- Usersページに移動 -->
           <li class="dropdown">
             <a href="#" id="account" class="dropdown-toggle"> <!-- ドロップダウンメニューのリンク -->
               Account <b class="caret"></b>
             </a>
             <ul id="dropdown-menu" class="dropdown-menu"> <!-- ドロップダウンメニューのリスト -->
               <li><%= link_to "Profile", current_user %></li> <!-- プロフィールページに移動 -->
-              <li><%= link_to "Settings", '#' %></li> <!-- 設定ページに移動 -->
+              <li><%= link_to "Settings", edit_user_registration_path %></li> <!-- 設定ページに移動 -->
               <li class="divider"></li> <!-- 区切り線 -->
               <li> <!-- ログアウト -->
                 <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete, confirm: "ログアウトしますか？" } %>

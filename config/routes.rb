@@ -18,7 +18,6 @@ Rails.application.routes.draw do
   }
 
 
-  # ユーザー一覧 & プロフィール（一般的に管理者のみ `index` を利用）
-  resources :users, only: [:index,  # ユーザー一覧ページにアクセス
-                           :show]   # ユーザー詳細ページにアクセス
+  # 管理者のみユーザー一覧 & ユーザー削除を許可
+  resources :users, only: [:index, :show, :destroy]
 end

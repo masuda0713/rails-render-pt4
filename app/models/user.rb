@@ -11,4 +11,13 @@ class User < ApplicationRecord
          :recoverable, # パスワードリセットを有効にする
          :rememberable, # ログイン情報を保持する。Remember me機能。
          :validatable # メールアドレス、パスワードのバリデーションを有効にする。
+
+  # ユーザーと権限の関連付け
+  has_many :user_roles, dependent: :destroy # ユーザーと権限の中間テーブル
+  has_many :roles, through: :user_roles # ユーザーと権限の多対多の関連付け
+
+  # ユーザーに権限を追加する
+  def has_role?(role_name) 
+    roles.exists?(name: role_name) # 権限名が一致するレコードが存在するかどうかを判定
+  end 
 end
